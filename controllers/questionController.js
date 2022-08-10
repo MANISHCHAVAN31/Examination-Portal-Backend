@@ -64,8 +64,22 @@ exports.createQuestion = async (req, res) => {
 };
 
 exports.getAllQuestions = async (req, res) => {
+  const { pageno, noofquestions } = req.query;
+
+  console.log("PAGENO: ", pageno);
+  console.log(noofquestions);
+
+  let startIndex = (pageno - 1) * noofquestions;
+  let endIndex = pageno * noofquestions;
+
+  console.log(startIndex);
+  console.log(endIndex);
+
   const questions = await QuestionView.getAllQuestions();
-  res.status(200).json(questions);
+  const questionsToSend = questions.slice(startIndex, endIndex);
+  console.log(questions);
+  console.log(questionsToSend);
+  res.status(200).json(questionsToSend);
 };
 
 exports.getQuestionByTechnology = async (req, res) => {
