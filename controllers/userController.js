@@ -240,6 +240,12 @@ exports.updateUser = async (req, res) => {
 };
 
 exports.getAllStudentUser = async (req, res) => {
+  const { pageno, noofstudents } = req.query;
+
+  let startIndex = (pageno - 1) * noofstudents;
+  let endIndex = pageno * noofstudents;
+
   const studentUsers = await UserView.getAllStudentUser();
-  res.status(200).json(studentUsers);
+  const studentUsersToSend = studentUsers.slice(startIndex, endIndex);
+  res.status(200).json(studentUsersToSend);
 };
