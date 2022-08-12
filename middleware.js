@@ -28,6 +28,8 @@ exports.checkoutUser = async (req, res, next) => {
       return;
     }
   }
+
+  // next();
 };
 
 exports.checkoutTest = async (req, res, next) => {
@@ -62,5 +64,14 @@ exports.checkoutTest = async (req, res, next) => {
       res.status(400).send("This test is not valid");
       return;
     }
+  }
+};
+
+exports.isAuthenticated = (req, resp, next) => {
+  if (!JwtToken.validateToken(req, "loginToken").isValid) {
+    resp.status(401).send("Login first to proceed");
+    return;
+  } else {
+    next();
   }
 };

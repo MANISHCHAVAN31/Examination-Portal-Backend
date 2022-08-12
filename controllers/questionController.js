@@ -206,3 +206,9 @@ exports.getDeletedQuestions = async (req, res) => {
   let questions = await QuestionView.getDeletedQuestions();
   res.status(200).json(questions);
 };
+
+exports.getComplexity = (req, res) => {
+  const complexities = [1, 2, 3];
+
+  res.status(200).send(complexities);
+};

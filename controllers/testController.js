@@ -246,3 +246,30 @@ exports.getTestOfUser = async (req, res) => {
   test.questions = formattedQuestions;
   res.status(200).json(test);
 };
+
+exports.getTestsStatus = async (req, res) => {
+  const { username } = req.body;
+
+  if (typeof username !== "string") {
+    res.status(400).send("Invalid Username");
+    return;
+  }
+
+  const user = await UserView.getUser(username);
+  const frontendTest = await TestView.getTestByName(
+    user.id,
+    user.stack.frontend
+  );
+  const backendTest = await TestView.getTestByName(user.id, user.stack.backend);
+  const databaseTest = await TestView.getTestByName(
+    user.id,
+    user.stack.database
+  );
+
+  res.status(200).json({
+    stack: user.stack,
+    frontend: frontendTest,
+    backend: backendTest,
+    database: databaseTest,
+  });
+};

@@ -1,5 +1,6 @@
 const UserView = require("../views/userView");
 const StackView = require("../views/stackView");
+const TestView = require("../views/testView");
 
 exports.createUser = async (req, res) => {
   const {
@@ -248,4 +249,40 @@ exports.getAllStudentUser = async (req, res) => {
   const studentUsers = await UserView.getAllStudentUser();
   const studentUsersToSend = studentUsers.slice(startIndex, endIndex);
   res.status(200).json(studentUsersToSend);
+};
+
+exports.dataForPieChart = async (req, res) => {
+  const allUsers = await UserView.getAllUsers();
+  const allUserscount = allUsers.length;
+
+  const alltests = await TestView.getAllTest();
+  let arrOfUsers = [];
+
+  if (!arrOfUsers.includes(alltests.userid)) {
+    arrOfUsers.push(alltests.id);
+  }
+
+  console.log(arrOfUsers);
+  let testGivenUsers = arrOfUsers.length;
+
+  res.status(200).json({
+    TotalUsers: allUserscount,
+    TestGivenUsers: testGivenUsers,
+  });
+};
+
+exports.getStudentPieChartData = async (req, res) => {
+  const { username } = req.body;
+
+  if (typeof username !== "string") {
+    res.status(400).send("Invalid username");
+    return;
+  }
+
+  const tests = await TestView.getUserTests(username);
+  let testCount = tests.length;
+  console.log("TEST COUNT : ", testCount);
+  res.status(200).json({
+    testcount: testCount,
+  });
 };

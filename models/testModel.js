@@ -101,6 +101,19 @@ class TestModel {
       console.log(error);
     }
   }
+
+  async getTestByName(id, name) {
+    try {
+      return await Test.findOne({
+        where: {
+          userid: id,
+          technologyname: name,
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
 }
 
 module.exports = TestModel;

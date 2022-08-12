@@ -8,14 +8,19 @@ const {
   getAllDeletedTechnology,
   restoreDeletedTechnology,
 } = require("../controllers/technologyController");
+const { isAuthenticated } = require("../middleware");
 const router = express.Router();
 
-router.post("/createtechnology", createTechnology);
-router.put("/updatetechnology", updateTechnology);
-router.delete("/deletetechnology", deleteTechnology);
-router.post("/gettechnology", getTechnology);
-router.get("/getalltechnology", getAllTechnology);
-router.get("/getalldeletedtechnology", getAllDeletedTechnology);
-router.post("/restoretechnology", restoreDeletedTechnology);
+router.post("/createtechnology", isAuthenticated, createTechnology);
+router.put("/updatetechnology", isAuthenticated, updateTechnology);
+router.delete("/deletetechnology", isAuthenticated, deleteTechnology);
+router.post("/gettechnology", isAuthenticated, getTechnology);
+router.get("/getalltechnology", isAuthenticated, getAllTechnology);
+router.get(
+  "/getalldeletedtechnology",
+  isAuthenticated,
+  getAllDeletedTechnology
+);
+router.post("/restoretechnology", isAuthenticated, restoreDeletedTechnology);
 
 module.exports = router;

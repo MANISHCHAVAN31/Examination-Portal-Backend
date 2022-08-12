@@ -8,16 +8,23 @@ const {
   deleteQuestion,
   restoreQuestion,
   getDeletedQuestions,
+  getComplexity,
 } = require("../controllers/questionController");
+const { checkoutUser, isAuthenticated } = require("../middleware");
 const router = express.Router();
 
-router.post("/createquestion", createQuestion);
-router.get("/getallquestions", getAllQuestions);
-router.post("/getquestionbytechnology", getQuestionByTechnology);
-router.post("/getquestion", getQuestion);
-router.put("/updatequestion", updateQuestion);
-router.delete("/deletequestion", deleteQuestion);
-router.post("/restorequestion", restoreQuestion);
-router.get("/getdeletedquestions", getDeletedQuestions);
+router.post("/createquestion", isAuthenticated, createQuestion);
+router.get("/getallquestions", isAuthenticated, getAllQuestions);
+router.post(
+  "/getquestionbytechnology",
+  isAuthenticated,
+  getQuestionByTechnology
+);
+router.post("/getquestion", isAuthenticated, getQuestion);
+router.put("/updatequestion", isAuthenticated, updateQuestion);
+router.delete("/deletequestion", isAuthenticated, deleteQuestion);
+router.post("/restorequestion", isAuthenticated, restoreQuestion);
+router.get("/getdeletedquestions", isAuthenticated, getDeletedQuestions);
+router.get("/getcomplexity", isAuthenticated, getComplexity);
 
 module.exports = router;

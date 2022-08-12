@@ -65,6 +65,12 @@ class TestView {
     const tests = await db.getTestOfUser(user, technology);
     return tests;
   }
+
+  static async getTestByName(id, name) {
+    const db = new TestModel();
+    const test = await db.getTestByName(id, name);
+    return test;
+  }
 }
 
 module.exports = TestView;
